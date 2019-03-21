@@ -5,7 +5,9 @@ const Customer = require('./models/customer');
 const mongoose = require('mongoose');
 const indexRoute = require('./routes/indexRoute');
 const customerRoute = require('./routes/customerRoute');
-mongoose.connect('mongodb+srv://it6203_hkailasw:eTVRCDaLA1BrLtbe@it6203-pet-grooming-srdsr.mongodb.net/it6203-pet-grooming?retryWrites=true', { useNewUrlParser: true })
+//TODO: Uncomment
+//mongodb+srv://it6203_hkailasw:eTVRCDaLA1BrLtbe@it6203-pet-grooming-srdsr.mongodb.net/it6203-pet-grooming?retryWrites=true', { useNewUrlParser: true }
+mongoose.connect('mongodb://localhost:27017/customerSchema', { useNewUrlParser: true })
   .then(() => { console.log("connected"); })
   .catch(() => { console.log("error connecting"); });
 

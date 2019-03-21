@@ -21,6 +21,7 @@ export class GroomingService {
     return this.http.post(groomingUrl, { firstName, lastName, email, phone, weight, appointmentDate/*, selectedPreferredServices, selectedAdditionalServices, selectedAllergenServices*/ }).subscribe((responseData) => {
       console.log(responseData);
     });
+    
   }
   deleteCustomer(id: number) {
     var requestUrl =groomingUrl + "/" + id;

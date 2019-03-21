@@ -85,7 +85,8 @@ export class NewGroomingFormComponent implements OnInit {
       this.Weight,
       this.SelectedPreferredService,
       this.SelectedAdditionalServices,
-      this.SelectedAllergenServices));
+      this.SelectedAllergenServices)),
+      this._myService.getAllCustomers()
   }
 
   onEmailBlur() {
