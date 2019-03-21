@@ -1,0 +1,103 @@
+<div>
+  <div class="container">
+  <form name="myForm" ng-controller="FormController" class="my-form">
+    <div class="layout-row header">
+       <h3>Services Form</h3>
+    </div>
+    <div class="layout-row section">
+      <div class="section-header"></div>
+      <div class="section-body container">
+        <div class="row">
+          <div class="col-xs-12 col-md-4 control-group-v"></div>
+          <div class="col-xs-12 col-md-4 control-group-v"></div>
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <label>Appointment Date</label>
+              <input matInput  [ngModelOptions]="{ standalone: true }"
+                class="form-control" name="txtAppointmentDate" type="date" [(ngModel)]="AppointmentDate" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <label>First Name</label>
+              <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
+                id="txtFirstName" name="txtFirstName" type="text" [(ngModel)]="FirstName" />
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <label>LastName</label>
+              <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
+                name="txtLastName" type="text" [(ngModel)]="LastName" />
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <label>Email</label>
+              <input matInput  class="form-control" [ngModelOptions]="{ standalone: true }"
+                name="txtEmail" type="email" [(ngModel)]="Email" (blur)="onEmailBlur()" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <Label>Phone</Label>
+              <input matInput  class="form-control" [ngModelOptions]="{ standalone: true }"
+                name="txtPhone" type="text" [(ngModel)]="Phone" />
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <mat-form-field>
+              <label>Weight</label>
+              <input matInput class="form-control" [ngModelOptions]="{ standalone: true }"
+                name="txtWeight" type="text" [(ngModel)]="Weight" />
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-md-4 control-group-v">
+              <label>Preferred Services</label>
+              <select input matInput placeholder="preferredServices" class="form-control"
+                [ngModelOptions]="{ standalone: true }" [(ngModel)]="SelectedPreferredService">
+                <option *ngFor="let service of preferredServices; let i = index" value="{{ service }}">{{ service }}
+                </option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-4 control-group-v">
+            <label>Additional Services</label>
+            <select id="addon-checkboxes" [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="SelectedAdditionalServices" multiple="multiple">
+              <option *ngFor="let addon of addonServices">{{ addon }}</option>
+            </select>
+          </div>
+          <div class="col-xs-12 col-md-2 control-group-v">
+            <label>Allergens</label>
+            <select id="allergens-checkboxes" [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="SelectedAllergenServices" multiple="multiple">
+              <option *ngFor="let allergen of allergens; let i = index" value="{{ allergen }}">{{ allergen }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="layout-row section">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 control-group-v">
+          <button class="btn btn-primary" (click)="onSubmitForm()" [disabled]="EnableSubmitButton">
+            Submit Form
+          </button>
+        </div>
+        <div class="col-xs-12 col-md-4 control-group-v">
+          <button class="btn btn-danger" (click)="onClearForm()">
+            Reset Form
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<br>
