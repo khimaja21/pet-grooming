@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GroomingService } from '../new-grooming-form/grooming.service';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -7,25 +7,29 @@ import { GroomingService } from '../new-grooming-form/grooming.service';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit {
-
   title = 'Customers';
   public customerList;
-  constructor(private _myService: GroomingService) { }
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit() {
-    this.getAllCustomers();
+    this.getCustomers();
   }
 
-  getAllCustomers(){
-    this._myService.getAllCustomers().subscribe(data=>{
-      this.customerList= data;
-    },
-    err=> console.error(err),
-    ()=>console.log('finished loading'))
-  };
+  getCustomers() {
+    this.customerService.getCustomers().subscribe(
+      data => {
+        this.customerList = data;
+      },
+      err => console.error(err),
+      () => console.log('finished loading')
+    );
+  }
 
-  onDeleteCustomer(customerId: number){
-    this._myService.deleteCustomer(customerId);
-    alert('Customer record deleted!!');
+  onDeleteCustomer(customerId: number) {
+    this.customerService.deleteCustomer(customerId).subscribe(() => {
+      console.log('Deleted:' + customerId);
+      this.getCustomers();
+    });
+
   }
 }

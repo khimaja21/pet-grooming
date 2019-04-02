@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { String, StringBuilder } from 'typescript-string-operations';
-
-import { GroomingService } from './grooming.service';
+import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-new-grooming-form',
@@ -10,6 +11,10 @@ import { GroomingService } from './grooming.service';
 })
 export class NewGroomingFormComponent implements OnInit {
   title = 'grooming-services';
+
+  mode = 'Add';
+  private id: string;
+  customer;
 
   AppointmentDate = new Date();
   FirstName = '';
@@ -26,8 +31,11 @@ export class NewGroomingFormComponent implements OnInit {
   addonServices: string[] = [];
   allergens: string[] = [];
 
-  constructor(private _myService: GroomingService) {
-
+  constructor(
+    private customerService: CustomerService,
+    private router: Router,
+    public route: ActivatedRoute
+  ) {
     this.preferredServices = [
       ' -- Select Service -- ',
       'Bath Only ($12)',
@@ -60,7 +68,31 @@ export class NewGroomingFormComponent implements OnInit {
       'Dairy'
     ];
   }
-  ngOnInit() { }
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('_id')) {
+        this.mode = 'Edit';
+        this.id = paramMap.get('_id');
+
+        this.customerService.getCustomerById(this.id).subscribe(
+          data => {
+            this.customer = data;
+            this.FirstName = this.customer.firstName;
+            this.LastName = this.customer.lastName;
+            this.Email = this.customer.email;
+            this.Phone = this.customer.phone;
+            this.Weight = this.customer.weight;
+            this.AppointmentDate = new Date(this.customer.appointmentDate);
+          },
+          err => console.error(err),
+          () => console.log('finished loading')
+        );
+      } else {
+        this.mode = 'Add';
+        this.id = null;
+      }
+    });
+  }
 
   onClearForm() {
     this.AppointmentDate = new Date();
@@ -75,23 +107,53 @@ export class NewGroomingFormComponent implements OnInit {
   }
   onSubmitForm() {
     alert('Form submitted successfully');
-    this._myService.addGrooming(this.FirstName,this.LastName,this.Email, this.Phone, this.Weight, this.AppointmentDate/*, this.SelectedPreferredService, this.SelectedAdditionalServices, this.SelectedAllergenServices*/);
-    console.log(String.Format('{0},{1},{2},{3},{4},{5},{6},{7},{8}',
-      this.AppointmentDate,
-      this.FirstName,
-      this.LastName,
-      this.Email,
-      this.Phone,
-      this.Weight,
-      this.SelectedPreferredService,
-      this.SelectedAdditionalServices,
-      this.SelectedAllergenServices)),
-      this._myService.getAllCustomers()
+
+    if (this.mode === 'Add') {
+      this.customerService.addCustomer(
+        this.FirstName,
+        this.LastName,
+        this.Email,
+        this.Phone,
+        this.Weight,
+        this.AppointmentDate
+        /*, this.SelectedPreferredService, this.SelectedAdditionalServices, this.SelectedAllergenServices*/
+      ) .subscribe(responseData => {
+        console.log(responseData);
+        this.router.navigate(['/listCustomers']);
+      });
+    }
+    if (this.mode === 'Edit') {
+      this.customerService.updateCustomer(
+        this.id,
+        this.FirstName,
+        this.LastName,
+        this.Email,
+        this.Phone,
+        this.Weight,
+        this.AppointmentDate
+      ).subscribe(responseData => {
+        console.log(responseData);
+        this.router.navigate(['/listCustomers']);
+      });
+    }
+
+    console.log(
+      String.Format(
+        '{0},{1},{2},{3},{4},{5},{6},{7},{8}',
+        this.AppointmentDate,
+        this.FirstName,
+        this.LastName,
+        this.Email,
+        this.Phone,
+        this.Weight,
+        this.SelectedPreferredService,
+        this.SelectedAdditionalServices,
+        this.SelectedAllergenServices
+      )
+    );
   }
 
   onEmailBlur() {
     this.EnableSubmitButton = this.Email === '' ? true : false;
   }
 }
-
-

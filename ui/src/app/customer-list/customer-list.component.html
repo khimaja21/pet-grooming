@@ -1,9 +1,9 @@
 <div>
   <div class="container">
-    <h2>{{title}}</h2>
+    <h2>{{ title }}</h2>
   </div>
   <div class="container">
-    <table border=1 class="table">
+    <table border="1" class="table">
       <tr>
         <th>Id</th>
         <th>First Name</th>
@@ -13,19 +13,32 @@
         <th>Weight</th>
         <th>AppointmentDate</th>
         <th></th>
+        <th></th>
       </tr>
-      <tr *ngFor="let customer of customerList let i = index">
-        <td>{{customer._id}}</td>
-        <td>{{customer.firstName}}</td>
-        <td>{{customer.lastName}}</td>
-        <td>{{customer.email}}</td>
-        <td>{{customer.phone}}</td>
-        <td>{{customer.weight}}</td>
-        <td>{{customer.appointmentDate}}</td>
-        <!-- <td><button class="btn btn-link btn-sm btn-warning" (click)="onUpdateCustomer(customer._id)">UPDATE</button>
-        </td> -->
-        <td><button class="btn btn-link btn-sm btn-warning" (click)="onDeleteCustomer(customer._id)">DELETE</button>
+      <tr *ngFor="let customer of customerList; let i = index">
+        <td>{{ customer._id }}</td>
+        <td>{{ customer.firstName }}</td>
+        <td>{{ customer.lastName }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.weight }}</td>
+        <td>{{ customer.appointmentDate }}</td>
+        <td>
+          <button
+            class="btn btn-danger"
+            (click)="onDeleteCustomer(customer._id)"
+          >
+            Delete
+          </button>
         </td>
+        <td>
+            <button
+              class="btn btn-warning"
+              [routerLink]="['/editCustomer', customer._id]"
+            >
+              Update
+            </button>
+          </td>
       </tr>
     </table>
   </div>
