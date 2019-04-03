@@ -14,7 +14,13 @@
             <mat-form-field>
               <label>Appointment Date</label>
               <input matInput  [ngModelOptions]="{ standalone: true }"
-                class="form-control" name="txtAppointmentDate" type="date" [(ngModel)]="AppointmentDate" />
+                class="form-control"
+                name="txtAppointmentDate"
+                type="text"
+                [ngModel]="AppointmentDate|date:'MM/dd/yyyy'"
+                 (ngModelChange)= "AppointmentDate=$event"
+                 required />
+
             </mat-form-field>
           </div>
         </div>
@@ -22,22 +28,27 @@
           <div class="col-xs-12 col-md-4 control-group-v">
             <mat-form-field>
               <label>First Name</label>
-              <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
-                id="txtFirstName" name="txtFirstName" type="text" [(ngModel)]="FirstName" />
+             <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
+                id="txtFirstName" name="txtFirstName" type="text" [(ngModel)]="FirstName"  required minlength="3" #title="ngModel" />
+   <mat-error *ngIf="title.invalid">Please Enter FirstName </mat-error>
             </mat-form-field>
           </div>
           <div class="col-xs-12 col-md-4 control-group-v">
             <mat-form-field>
               <label>LastName</label>
-              <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
-                name="txtLastName" type="text" [(ngModel)]="LastName" />
+             <input matInput  [ngModelOptions]="{ standalone: true }" class="form-control"
+                name="txtLastName" type="text" [(ngModel)]="LastName" required minlength="3" />
+
+                <mat-error *ngIf="title.invalid">Please Enter LastName </mat-error>
             </mat-form-field>
           </div>
           <div class="col-xs-12 col-md-4 control-group-v">
             <mat-form-field>
               <label>Email</label>
-              <input matInput  class="form-control" [ngModelOptions]="{ standalone: true }"
-                name="txtEmail" type="email" [(ngModel)]="Email" (blur)="onEmailBlur()" />
+           <input matInput  class="form-control" [ngModelOptions]="{ standalone: true }"
+                name="txtEmail" type="email" [(ngModel)]="Email" />
+                <!-- <input matInput type="text" name="txtEmail" ngModel required minlength="3" #title="ngModel">
+                <mat-error *ngIf="title.invalid">Please enter EmailId </mat-error> -->
             </mat-form-field>
           </div>
         </div>
@@ -46,21 +57,25 @@
             <mat-form-field>
               <Label>Phone</Label>
               <input matInput  class="form-control" [ngModelOptions]="{ standalone: true }"
-                name="txtPhone" type="text" [(ngModel)]="Phone" />
+                name="txtPhone" type="text" [(ngModel)]="Phone" required  maxlength="10" #title="ngModel"/>
+
+                <mat-error *ngIf="title.invalid">Please Enter PhoneNumber </mat-error>
             </mat-form-field>
           </div>
           <div class="col-xs-12 col-md-4 control-group-v">
             <mat-form-field>
               <label>Weight</label>
               <input matInput class="form-control" [ngModelOptions]="{ standalone: true }"
-                name="txtWeight" type="text" [(ngModel)]="Weight" />
+                name="txtWeight" type="number" [(ngModel)]="Weight" />
+                <mat-hint>Weight in pounds</mat-hint>
+
             </mat-form-field>
           </div>
           <div class="col-xs-12 col-md-4 control-group-v">
               <label>Preferred Services</label>
-              <select input matInput placeholder="preferredServices" class="form-control"
+              <select input matInput placeholder="PreferredServices" class="form-control"
                 [ngModelOptions]="{ standalone: true }" [(ngModel)]="SelectedPreferredService">
-                <option *ngFor="let service of preferredServices; let i = index" value="{{ service }}">{{ service }}
+                <option *ngFor="let preferredService of PreferredServices; let i = index" value="{{ preferredService }}">{{ preferredService }}
                 </option>
               </select>
           </div>
@@ -68,16 +83,16 @@
         <div class="row">
           <div class="col-xs-12 col-md-4 control-group-v">
             <label>Additional Services</label>
-            <select id="addon-checkboxes" [ngModelOptions]="{ standalone: true }"
+            <select input matInput placeholder="AdditionalServices" [ngModelOptions]="{ standalone: true }"
               [(ngModel)]="SelectedAdditionalServices" multiple="multiple">
-              <option *ngFor="let addon of addonServices">{{ addon }}</option>
+              <option *ngFor="let additionalService of AdditionalServices" value= "{{additionalService}}">{{ additionalService }}</option>
             </select>
           </div>
           <div class="col-xs-12 col-md-2 control-group-v">
             <label>Allergens</label>
-            <select id="allergens-checkboxes" [ngModelOptions]="{ standalone: true }"
+            <select [ngModelOptions]="{ standalone: true }"
               [(ngModel)]="SelectedAllergenServices" multiple="multiple">
-              <option *ngFor="let allergen of allergens; let i = index" value="{{ allergen }}">{{ allergen }}</option>
+              <option *ngFor="let allergen of Allergens; let i = index" value="{{ allergen }}">{{ allergen }}</option>
             </select>
           </div>
         </div>
@@ -87,9 +102,10 @@
     <div class="layout-row section">
       <div class="row">
         <div class="col-xs-12 col-md-4 control-group-v">
-          <button class="btn btn-primary" (click)="onSubmitForm()" [disabled]="EnableSubmitButton">
+           <button class="btn btn-primary" ng-disabled ="!myForm.valid" (click)="onSubmitForm()">
             Submit Form
           </button>
+
         </div>
         <div class="col-xs-12 col-md-4 control-group-v">
           <button class="btn btn-danger" (click)="onClearForm()">

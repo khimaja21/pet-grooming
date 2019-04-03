@@ -30,13 +30,6 @@ mongoose
     next();
   });
 
-const indexRoute = require("./routes/indexRoute");
-const customerRoute = require("./routes/customerRoute");
-
-// add routes
-app.use("/", indexRoute);
-app.use("/customer", customerRoute);
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -67,7 +60,10 @@ app.post("/customers", (req, res, next) => {
     email: req.body.email,
     phone: req.body.phone,
     weight: req.body.weight,
-    appointmentDate: req.body.appointmentDate
+    appointmentDate: req.body.appointmentDate,
+    preferredServices: req.body.preferredServices,
+    additionalServices: req.body.additionalServices,
+    allergens: req.body.allergens
   });
   customerData
     .save()
@@ -92,7 +88,10 @@ app.put("/customers/:id", (req, res, next) => {
           email: req.body.email,
           phone: req.body.phone,
           weight: req.body.weight,
-          appointmentDate: req.body.appointmentDate
+          appointmentDate: req.body.appointmentDate,
+          preferredServices: req.body.preferredServices,
+          additionalServices: req.body.additionalServices,
+          allergens: req.body.allergens
         }
       },
       { new: true }

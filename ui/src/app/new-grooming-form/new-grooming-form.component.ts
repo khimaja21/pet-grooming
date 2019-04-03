@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { String, StringBuilder } from 'typescript-string-operations';
+import { String } from 'typescript-string-operations';
 import { Router } from '@angular/router';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CustomerService } from '../customer.service';
@@ -20,23 +20,24 @@ export class NewGroomingFormComponent implements OnInit {
   FirstName = '';
   LastName = '';
   Email = '';
-  Phone = 0;
+  Phone = null;
   Weight = 0;
+
   SelectedPreferredService = '';
   SelectedAdditionalServices = [];
   SelectedAllergenServices = [];
-  EnableSubmitButton = this.Email === '' ? true : false;
 
-  preferredServices: string[] = [];
-  addonServices: string[] = [];
-  allergens: string[] = [];
+  PreferredServices = [];
+  AdditionalServices = [];
+  Allergens = [];
+  form: any;
 
   constructor(
     private customerService: CustomerService,
     private router: Router,
     public route: ActivatedRoute
   ) {
-    this.preferredServices = [
+    this.PreferredServices = [
       ' -- Select Service -- ',
       'Bath Only ($12)',
       'Partial Groom($20)',
@@ -47,7 +48,7 @@ export class NewGroomingFormComponent implements OnInit {
       'Little Paws Puppy Treatment($15)'
     ];
 
-    this.addonServices = [
+    this.AdditionalServices = [
       'Hair Coloring ($8)',
       'Hair Trim ($5)',
       'Hair wash and Blowdry($10)',
@@ -57,7 +58,7 @@ export class NewGroomingFormComponent implements OnInit {
       'Sanitary Trim ($15)'
     ];
 
-    this.allergens = [
+    this.Allergens = [
       'Fragnances',
       'Soy',
       'Eggs',
@@ -68,6 +69,7 @@ export class NewGroomingFormComponent implements OnInit {
       'Dairy'
     ];
   }
+
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('_id')) {
@@ -82,7 +84,10 @@ export class NewGroomingFormComponent implements OnInit {
             this.Email = this.customer.email;
             this.Phone = this.customer.phone;
             this.Weight = this.customer.weight;
-            this.AppointmentDate = new Date(this.customer.appointmentDate);
+            this.AppointmentDate = this.customer.appointmentDate;
+            this.SelectedPreferredService = this.customer.preferredServices;
+            this.SelectedAdditionalServices = this.customer.additionalServices;
+            this.SelectedAllergenServices = this.customer.allergens;
           },
           err => console.error(err),
           () => console.log('finished loading')
@@ -99,42 +104,57 @@ export class NewGroomingFormComponent implements OnInit {
     this.FirstName = '';
     this.LastName = '';
     this.Email = '';
-    this.Phone = 0;
+    this.Phone = null;
     this.Weight = 0;
-    this.SelectedPreferredService = '';
-    this.SelectedAdditionalServices = [];
-    this.SelectedAllergenServices = [];
+    this.PreferredServices = [];
+    this.AdditionalServices = [];
+    this.Allergens = [];
   }
   onSubmitForm() {
-    alert('Form submitted successfully');
+    // if (this.form.valid) {
+    //   console.log('form submitted');
+    // } else {
+    //   // validate all form fields
+    // }
+
+    // alert('Form submitted successfully');
 
     if (this.mode === 'Add') {
-      this.customerService.addCustomer(
-        this.FirstName,
-        this.LastName,
-        this.Email,
-        this.Phone,
-        this.Weight,
-        this.AppointmentDate
-        /*, this.SelectedPreferredService, this.SelectedAdditionalServices, this.SelectedAllergenServices*/
-      ) .subscribe(responseData => {
-        console.log(responseData);
-        this.router.navigate(['/listCustomers']);
-      });
+      this.customerService
+        .addCustomer(
+          this.FirstName,
+          this.LastName,
+          this.Email,
+          this.Phone,
+          this.Weight,
+          this.AppointmentDate,
+          this.SelectedPreferredService,
+          this.SelectedAdditionalServices,
+          this.SelectedAllergenServices
+        )
+        .subscribe(responseData => {
+          console.log(responseData);
+          this.router.navigate(['/listCustomers']);
+        });
     }
     if (this.mode === 'Edit') {
-      this.customerService.updateCustomer(
-        this.id,
-        this.FirstName,
-        this.LastName,
-        this.Email,
-        this.Phone,
-        this.Weight,
-        this.AppointmentDate
-      ).subscribe(responseData => {
-        console.log(responseData);
-        this.router.navigate(['/listCustomers']);
-      });
+      this.customerService
+        .updateCustomer(
+          this.id,
+          this.FirstName,
+          this.LastName,
+          this.Email,
+          this.Phone,
+          this.Weight,
+          this.AppointmentDate,
+          this.SelectedPreferredService,
+          this.SelectedAdditionalServices,
+          this.SelectedAllergenServices
+        )
+        .subscribe(responseData => {
+          console.log(responseData);
+          this.router.navigate(['/listCustomers']);
+        });
     }
 
     console.log(
@@ -151,9 +171,5 @@ export class NewGroomingFormComponent implements OnInit {
         this.SelectedAllergenServices
       )
     );
-  }
-
-  onEmailBlur() {
-    this.EnableSubmitButton = this.Email === '' ? true : false;
   }
 }

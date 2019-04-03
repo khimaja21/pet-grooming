@@ -1,4 +1,4 @@
-export interface CustomerModel {
+export class CustomerModel {
   AppointmentDate: Date;
   FirstName: string;
   LastName: string;
@@ -7,5 +7,5 @@ export interface CustomerModel {
   Weight: number;
   PreferredService: string;
   AdditionalServices: string[];
-  AllergenServices: string[];
+  Allergens: string[];
 }

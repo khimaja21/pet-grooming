@@ -7,11 +7,10 @@ const customerSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: Number, required: true },
   weight: { type: Number, required: true },
-  appointmentDate: { type: Date, required: true }
-  // ,
-  // preferredServices: { type: String, required: true },
-  // additionalServices: { type: [String], required: true },
-  // allergens: { type: [String], required: true }
+  appointmentDate: { type: Date, required: true },
+  preferredServices: { type: String, required: true },
+  additionalServices: { type: [String], required: true },
+  allergens: { type: [String], required: true }
 });
 
 // Parameters: (model_name, schema_to_use, collection_name) 

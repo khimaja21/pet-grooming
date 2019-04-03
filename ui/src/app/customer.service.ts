@@ -25,8 +25,10 @@ export class CustomerService {
     email: string,
     phone: number,
     weight: number,
-    appointmentDate: Date
-    /*, selectedPreferredServices: string, selectedAdditionalServices:Array<string>, selectedAllergenServices: Array<string>*/
+    appointmentDate: Date,
+    preferredServices: string,
+    additionalServices: string[],
+    allergens: string[]
   ) {
     return this.http
       .post(this.baseUrl, {
@@ -35,7 +37,10 @@ export class CustomerService {
         email,
         phone,
         weight,
-        appointmentDate /*, selectedPreferredServices, selectedAdditionalServices, selectedAllergenServices*/
+        appointmentDate,
+        preferredServices,
+        additionalServices,
+        allergens
       });
   }
 
@@ -47,7 +52,10 @@ export class CustomerService {
     email: string,
     phone: number,
     weight: number,
-    appointmentDate: Date
+    appointmentDate: Date,
+    preferredServices: string,
+    additionalServices: string[],
+    allergens: string[]
   ) {
     return this.http.put(`${this.baseUrl}/${customerId}`, {
       firstName,
@@ -55,7 +63,10 @@ export class CustomerService {
       email,
       phone,
       weight,
-      appointmentDate
+      appointmentDate,
+      preferredServices,
+      additionalServices,
+      allergens
     });
   }
 

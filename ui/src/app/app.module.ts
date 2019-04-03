@@ -9,7 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NewGroomingFormComponent } from './new-grooming-form/new-grooming-form.component';
 import { MatFormFieldModule } from '@angular/material';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { GroomingMenuComponent } from './grooming-menu/grooming-menu.component';
