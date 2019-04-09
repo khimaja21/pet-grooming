@@ -1,48 +1,49 @@
 <div>
-  <div class="container">
+  <div class="container"  *ngIf="customerList?.length> 0">
     <h4>{{ title }}</h4>
-  </div>
-  <div class="container">
     <table border="1" class="table">
-      <tr>
-        <th>AppointmentDate</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Weight</th>
-        <th>Preferred Services</th>
-        <th>Additional Services</th>
-        <th>Allergens</th>
-        <th colspan="2">Action</th>
-      </tr>
-      <tr *ngFor="let customer of customerList; let i = index">
-        <td>{{ customer.appointmentDate | date: "MM-dd-yyyy" }}</td>
-        <td>{{ customer.firstName }}</td>
-        <td>{{ customer.lastName }}</td>
-        <td>{{ customer.email }}</td>
-        <td>{{ customer.phone }}</td>
-        <td>{{ customer.weight }}</td>
-        <td>{{ customer.preferredServices }}</td>
-        <td>{{ customer.additionalServices }}</td>
-        <td>{{ customer.allergens }}</td>
-        <td>
-          <button
-            class="btn btn-danger"
-            (click)="onDeleteCustomer(customer._id)"
-          >
-            Delete
-          </button>
-        </td>
-        <td>
-          <button
-            class="btn btn-warning"
-            [routerLink]="['/editCustomer', customer._id]"
-          >
-            Update
-          </button>
-        </td>
-      </tr>
-    </table>
+        <tr>
+          <th>Appointment Date</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <!-- <th>Weight</th>
+          <th>Preferred Services</th>
+          <th>Additional Services</th>
+          <th>Allergens</th> -->
+          <th colspan="2" align="center">Actions</th>
+        </tr>
+        <tr *ngFor="let customer of customerList; let i = index">
+          <td>{{ customer.appointmentDate | date: "MM-dd-yyyy" }}</td>
+          <td>{{ customer.firstName }}</td>
+          <td>{{ customer.lastName }}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.phone }}</td>
+          <!-- <td>{{ customer.weight }}</td>
+          <td>{{ customer.preferredServices }}</td>
+          <td>{{ customer.additionalServices }}</td>
+          <td>{{ customer.allergens }}</td> -->
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="onDeleteCustomer(customer._id)"
+            >
+              Delete
+            </button>
+          </td>
+          <td>
+            <button
+              class="btn btn-warning"
+              [routerLink]="['/editCustomer', customer._id]"
+            >
+              Update
+            </button>
+          </td>
+        </tr>
+      </table>
+  </div>
+  <div class="container" *ngIf="customerList?.length === 0">
+      <h2 style="color:red">No Customer records found. Please click Add Customers</h2>
   </div>
 </div>

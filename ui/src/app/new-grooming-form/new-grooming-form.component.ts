@@ -3,6 +3,8 @@ import { String } from 'typescript-string-operations';
 import { Router } from '@angular/router';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CustomerService } from '../customer.service';
+import { CustomerModel } from '../customer';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-new-grooming-form',
@@ -14,7 +16,6 @@ export class NewGroomingFormComponent implements OnInit {
 
   mode = 'Add';
   private id: string;
-  customer;
 
   AppointmentDate = new Date();
   FirstName = '';
@@ -78,16 +79,16 @@ export class NewGroomingFormComponent implements OnInit {
 
         this.customerService.getCustomerById(this.id).subscribe(
           data => {
-            this.customer = data;
-            this.FirstName = this.customer.firstName;
-            this.LastName = this.customer.lastName;
-            this.Email = this.customer.email;
-            this.Phone = this.customer.phone;
-            this.Weight = this.customer.weight;
-            this.AppointmentDate = this.customer.appointmentDate;
-            this.SelectedPreferredService = this.customer.preferredServices;
-            this.SelectedAdditionalServices = this.customer.additionalServices;
-            this.SelectedAllergenServices = this.customer.allergens;
+            const customer: CustomerModel = JSON.parse(JSON.stringify(data));
+            this.FirstName = customer.firstName;
+            this.LastName = customer.lastName;
+            this.Email = customer.email;
+            this.Phone = customer.phone;
+            this.Weight = customer.weight;
+            this.AppointmentDate = customer.appointmentDate;
+            this.SelectedPreferredService = customer.preferredServices;
+            this.SelectedAdditionalServices = customer.additionalServices;
+            this.SelectedAllergenServices = customer.allergens;
           },
           err => console.error(err),
           () => console.log('finished loading')

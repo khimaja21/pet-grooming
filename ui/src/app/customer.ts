@@ -1,11 +1,11 @@
 export class CustomerModel {
-  AppointmentDate: Date;
-  FirstName: string;
-  LastName: string;
-  Email: string;
-  Phone: number;
-  Weight: number;
-  PreferredService: string;
-  AdditionalServices: string[];
-  Allergens: string[];
+  appointmentDate: Date;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: number;
+  weight: number;
+  preferredServices: string;
+  additionalServices: string[];
+  allergens: string[];
 }

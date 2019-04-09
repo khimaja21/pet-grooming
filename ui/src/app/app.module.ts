@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerService } from './customer.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -9,7 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NewGroomingFormComponent } from './new-grooming-form/new-grooming-form.component';
 import { MatFormFieldModule } from '@angular/material';
-import { MatInputModule} from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { GroomingMenuComponent } from './grooming-menu/grooming-menu.component';
@@ -40,15 +40,19 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     BrowserAnimationsModule,
     CommonModule,
     MatMenuModule,
     MatToolbarModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [CustomerService],
+  providers: [CustomerService, MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
